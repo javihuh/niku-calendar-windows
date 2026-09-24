@@ -1,0 +1,4 @@
+title,startDate,startTime,endTime,location,notes,recurrence,interval,weekdays,until
+Morning focus,2026-09-21,09:00,10:30,Home,Deep work,daily,1,,2026-10-02
+Team sync,2026-09-21,11:00,11:30,Meet,Weekly check-in,weekly,1,"0,2,4",
+Monthly review,2026-09-30,16:00,17:00,Office,Review goals,monthly,1,,
