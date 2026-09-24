@@ -6,6 +6,3 @@ __pycache__/
 build/
 dist/
 *.spec.bak
-
-# Add this workflow after GitHub CLI receives the workflow scope.
-.github/workflows/build-windows.yml

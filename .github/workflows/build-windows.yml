@@ -1,0 +1,36 @@
+name: Build Windows
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m unittest discover -s tests -v
+      - run: pyside6-qmllint src/niku_calendar/qml/Main.qml
+      - run: pyinstaller --noconfirm --clean NikuCalendar.spec
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NikuCalendar-windows
+          path: dist/NikuCalendar.exe
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$env:GITHUB_REF_NAME" dist/NikuCalendar.exe --generate-notes --title "Niku Calendar $env:GITHUB_REF_NAME"
